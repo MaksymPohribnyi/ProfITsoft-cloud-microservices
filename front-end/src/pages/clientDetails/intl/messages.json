@@ -1,0 +1,20 @@
+{
+    "title": "Client Details",
+    "btn.add": "Add Client",
+    "btn.back": "Back",
+    "btn.edit": "Edit",
+    "btn.save": "Save",
+    "btn.cancel": "Cancel",
+    "btn.create": "Create",
+    "field.firstName": "First Name",
+    "field.lastName": "Last Name",
+    "field.email": "Email",
+    "message.createSuccess": "Client successfully created",
+    "message.updateSuccess": "Client successfully updated",
+    "message.error": "An error occurred",
+    "validation.required": "This field is required",
+    "validation.maxLength": "Maximum length is {max} characters",
+    "validation.invalidEmail": "Invalid email format",
+    "mode.view": "View Mode",
+    "mode.edit": "Edit Mode"
+}

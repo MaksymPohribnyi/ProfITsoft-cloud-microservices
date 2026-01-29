@@ -1,0 +1,38 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: notification-service
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            trust: smtp.gmail.com
+
+  kafka:
+    consumer:
+      group-id: ${spring.application.name}
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: com.pohribnyi.notification.*
+        spring.json.use.type.headers: false
+        spring.json.value.default.type: com.pohribnyi.notification.dto.message.EmailMessageDTO
+
+kafka:
+  topic:
+    emailNotifTopic: email-sending-tasks
+
+app:
+   scheduler:
+      email:
+        maxAttempts: 3
+        retry-interval: 60000

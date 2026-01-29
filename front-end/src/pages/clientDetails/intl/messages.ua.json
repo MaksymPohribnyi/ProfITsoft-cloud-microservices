@@ -1,0 +1,20 @@
+{
+    "title": "Деталі Клієнта",
+    "btn.add": "Додати Клієнта",
+    "btn.back": "Назад",
+    "btn.edit": "Редагувати",
+    "btn.save": "Зберегти",
+    "btn.cancel": "Скасувати",
+    "btn.create": "Створити",
+    "field.firstName": "Ім'я",
+    "field.lastName": "Прізвище",
+    "field.email": "Email",
+    "message.createSuccess": "Клієнта успішно створено",
+    "message.updateSuccess": "Клієнта успішно оновлено",
+    "message.error": "Сталася помилка",
+    "validation.required": "Це поле обов'язкове",
+    "validation.maxLength": "Максимальна довжина {max} символів",
+    "validation.invalidEmail": "Невірний email формат",
+    "mode.view": "Режим перегляду",
+    "mode.edit": "Режим редагування"
+}

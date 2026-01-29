@@ -1,0 +1,11 @@
+{
+  "error.INTERNAL_SERVER_ERROR": "Сталась внутрішня помилка. Будь ласка, спробуйте пізніше.",
+  "error.UNAUTHORIZED": "У вас немає привілеїв для використання функціоналу системи.",
+  "page.default": "Головна",
+  "page.login": "Логiн",
+  "page.secret": "Секретна Сторiнка",
+  "page.insurance-policies": "Страхові Поліси",
+  "page.clients": "Клієнти",
+  "signIn": "Увiйти",
+  "signOut": "Вийти"
+}
