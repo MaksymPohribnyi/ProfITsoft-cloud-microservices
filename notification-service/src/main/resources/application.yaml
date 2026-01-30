@@ -5,6 +5,21 @@ spring:
   application:
     name: notification-service
 
+  config:
+    import:
+      optional:consul:/
+
+  cloud:
+    consul:
+      host: ${SPRING_CLOUD_CONSUL_HOST:localhost}
+      port: ${SPRING_CLOUD_CONSUL_PORT:8500}
+      discovery:
+        enabled: true
+        instance-id: ${spring.application.name}:${random.value}
+        health-check-path: /actuator/health
+        health-check-interval: 10s
+        prefer-ip-address: true
+
   mail:
     host: smtp.gmail.com
     port: 587
@@ -32,7 +47,7 @@ kafka:
     emailNotifTopic: email-sending-tasks
 
 app:
-   scheduler:
-      email:
-        maxAttempts: 3
-        retry-interval: 60000
+  scheduler:
+    email:
+      maxAttempts: 3
+      retry-interval: 60000

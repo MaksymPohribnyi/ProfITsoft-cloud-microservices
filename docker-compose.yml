@@ -36,7 +36,7 @@ services:
 
   postgres:
     image: postgres:15-alpine
-    container_name: insurance-notif-postgres
+    container_name: insurance-postgres
     restart: unless-stopped
     environment:
       POSTGRES_DB: ${POSTGRES_DB:-insurance_db}
@@ -65,6 +65,9 @@ services:
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-postgres}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SPRING_CLOUD_CONSUL_HOST: consul
+      SPRING_CLOUD_CONSUL_PORT: 8500
+      SPRING_CLOUD_CONSUL_DISCOVERY_ENABLED: true
     ports:
       - "8080:8080"
     depends_on:
@@ -90,6 +93,9 @@ services:
       SPRING_ELASTICSEARCH_URIS: http://elasticsearch:9200
       SPRING_MAIL_USERNAME: ${SMTP_USERNAME}
       SPRING_MAIL_PASSWORD: ${SMTP_PASSWORD}
+      SPRING_CLOUD_CONSUL_HOST: consul
+      SPRING_CLOUD_CONSUL_PORT: 8500
+      SPRING_CLOUD_CONSUL_DISCOVERY_ENABLED: true
     depends_on:
       kafka:
         condition: service_started
@@ -184,6 +190,9 @@ services:
     environment:
       HOST: 0.0.0.0
       PORT: ${NESTJS_PORT:-7777}
+      CONSUL_HOST: consul
+      CONSUL_PORT: 8500
+      DISCOVERY_HOST: payments-service
       MONGO_ADDRESS: mongodb://mongo:27017/${MONGO_DB:-payments_db}
       POLICY_SERVICE_URL: ${POLICY_SERVICE_URL:-http://backend-app:8080/api/insurance_policy}
     depends_on:
