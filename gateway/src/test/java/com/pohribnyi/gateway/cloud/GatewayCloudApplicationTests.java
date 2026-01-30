@@ -1,4 +1,4 @@
-package com.pohribnyi.gateway_cloud;
+package com.pohribnyi.gateway.cloud;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,4 +1,4 @@
-package com.pohribnyi.gateway_cloud;
+package com.pohribnyi.gateway.cloud;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
