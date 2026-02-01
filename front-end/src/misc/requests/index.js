@@ -1,32 +1,36 @@
-import axios from 'axios';
-import storage, { keys } from '../storage';
+import axios from "axios";
+import config from "config";
 
-axios.interceptors.request.use((params) => {
-  const token = storage.getItem(keys.TOKEN);
-  if (token) {
-    params.headers.setAuthorization(`Bearer ${token}`);
-  }
-  return params;
+const apiClient = axios.create({
+  baseURL: config.API_BASE_URL,
+  withCredentials: true,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
 
-const addAxiosInterceptors = ({
-  onSignOut,
-}) => {
-  axios.interceptors.response.use(
+const addAxiosInterceptors = ({ onSignOut }) => {
+  apiClient.interceptors.response.use(
     (response) => response.data,
     (error) => {
-      if (error.response.data
-        .some(beError => beError?.code === 'INVALID_TOKEN')
-      ) {
+      if (error.response?.status === 401) {
         onSignOut();
+        return Promise.reject([{ code: "UNAUTHORIZED" }]);
       }
-      throw error.response.data;
-    }
+
+      const errorData = error.response?.data;
+      if (Array.isArray(errorData)) {
+        throw errorData;
+      }
+      throw (
+        error.response?.data || [
+          { code: "UNKNOWN_ERROR", description: error.message },
+        ]
+      );
+    },
   );
 };
 
-export {
-  addAxiosInterceptors,
-};
+export { addAxiosInterceptors, apiClient };
 
-export default axios;
+export default apiClient;

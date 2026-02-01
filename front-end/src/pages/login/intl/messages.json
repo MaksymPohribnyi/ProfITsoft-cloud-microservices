@@ -19,5 +19,9 @@
   "signUp.error.EMPTY_SIGN_UP_PASSWORD": "Password can't be empty",
   "signUp.error.EMPTY_SIGN_UP_PASSWORD_CONFIRM": "Confirm password can't be empty",
   "signUp.error.INVALID_EMAIL": "Invalid email format",
-  "signUp.error.PASSWORDS_MISMATCHES": "Password was not confirmed"
+  "signUp.error.PASSWORDS_MISMATCHES": "Password was not confirmed",
+  "google.title": "Insurance Management System",
+  "google.description": "Please sign in with your Google account to access the application",
+  "google.signIn": "Sign in with Google",
+  "google.privacy": "We'll never share your data without permission"
 }

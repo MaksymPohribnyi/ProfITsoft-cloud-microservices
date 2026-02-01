@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.authentication.HttpStatusServerEntryPoint;
+import org.springframework.security.web.server.authentication.RedirectServerAuthenticationEntryPoint;
+import org.springframework.security.web.server.authentication.RedirectServerAuthenticationFailureHandler;
+import org.springframework.security.web.server.authentication.RedirectServerAuthenticationSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsConfigurationSource;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
@@ -21,6 +23,9 @@ public class SecurityConfig {
     @Value("${app.cors.allowed-origins}")
     private String[] allowedOrigins;
 
+    @Value("${app.frontend.url}")
+    private String frontendUrl;
+
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         http
@@ -28,13 +33,22 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeExchange(exchanges -> exchanges
                         .pathMatchers(org.springframework.http.HttpMethod.OPTIONS).permitAll()
-                        .pathMatchers("/actuator/**", "/login/**", "/error/**").permitAll()
+                        .pathMatchers("/oauth2/**", "/actuator/**", "/login/**", "/error/**").permitAll()
                         .anyExchange().authenticated()
                 )
                 .exceptionHandling(exceptionHandling -> exceptionHandling
-                        .authenticationEntryPoint(new HttpStatusServerEntryPoint(HttpStatus.UNAUTHORIZED))
+                        .authenticationEntryPoint(
+                                new RedirectServerAuthenticationEntryPoint("/oauth2/authorization/google")
+                        )
                 )
-                .oauth2Login(Customizer.withDefaults());
+                .oauth2Login(oauth2 -> oauth2
+                        .authenticationSuccessHandler(
+                                new RedirectServerAuthenticationSuccessHandler(frontendUrl)
+                        )
+                        .authenticationFailureHandler(
+                                new RedirectServerAuthenticationFailureHandler(frontendUrl + "/login?error=true")
+                        )
+                );
 
         return http.build();
     }
@@ -43,7 +57,6 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // Використовуємо масив з конфігу
         configuration.setAllowedOrigins(Arrays.asList(allowedOrigins));
 
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));

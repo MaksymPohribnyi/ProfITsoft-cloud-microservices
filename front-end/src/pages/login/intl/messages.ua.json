@@ -19,5 +19,9 @@
   "signUp.error.EMPTY_SIGN_UP_PASSWORD": "Пароль не може бути пустим",
   "signUp.error.EMPTY_SIGN_UP_PASSWORD_CONFIRM": "Пiдтвердження паролю не може бути пустим",
   "signUp.error.INVALID_EMAIL": "Невiрний формат Email-а",
-  "signUp.error.PASSWORDS_MISMATCHES": "Пароль не було підтверджено"
+  "signUp.error.PASSWORDS_MISMATCHES": "Пароль не було підтверджено",
+  "google.title": "Система управління страхуванням",
+  "google.description": "Будь ласка, увійдіть через Google акаунт для доступу до додатку",
+  "google.signIn": "Увійти через Google",
+  "google.privacy": "Ми ніколи не передаємо ваші дані без дозволу"
 }
