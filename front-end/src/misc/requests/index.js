@@ -2,7 +2,7 @@ import axios from "axios";
 import config from "config";
 
 const apiClient = axios.create({
-  baseURL: config.API_BASE_URL,
+  baseURL: config.API_BASE_URL || window.location.origin,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
@@ -14,7 +14,7 @@ const addAxiosInterceptors = ({ onSignOut }) => {
     (response) => response.data,
     (error) => {
       if (error.response?.status === 401) {
-        onSignOut();
+        window.location.href = '/oauth2/authorization/google';
         return Promise.reject([{ code: "UNAUTHORIZED" }]);
       }
 

@@ -3,6 +3,7 @@ package com.pohribnyi.gateway.cloud.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
@@ -32,22 +33,24 @@ public class SecurityConfig {
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeExchange(exchanges -> exchanges
-                        .pathMatchers(org.springframework.http.HttpMethod.OPTIONS).permitAll()
-                        .pathMatchers("/oauth2/**", "/actuator/**", "/login/**", "/error/**").permitAll()
+                        .pathMatchers(HttpMethod.OPTIONS).permitAll()
+                        .pathMatchers("/oauth2/**", "/login/**", "/logout").permitAll()
+                        .pathMatchers("/actuator/**").permitAll()
+                        .pathMatchers("/api/**", "/notifications/**", "/payments/**").authenticated()
                         .anyExchange().authenticated()
                 )
-                .exceptionHandling(exceptionHandling -> exceptionHandling
+                /*.exceptionHandling(exceptionHandling -> exceptionHandling
                         .authenticationEntryPoint(
                                 new RedirectServerAuthenticationEntryPoint("/oauth2/authorization/google")
                         )
-                )
+                )*/
                 .oauth2Login(oauth2 -> oauth2
-                        .authenticationSuccessHandler(
-                                new RedirectServerAuthenticationSuccessHandler(frontendUrl)
-                        )
-                        .authenticationFailureHandler(
+                                .authenticationSuccessHandler(
+                                        new RedirectServerAuthenticationSuccessHandler(frontendUrl)
+                                )
+                        /*.authenticationFailureHandler(
                                 new RedirectServerAuthenticationFailureHandler(frontendUrl + "/login?error=true")
-                        )
+                        )*/
                 );
 
         return http.build();

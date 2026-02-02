@@ -28,6 +28,8 @@ services:
       SPRING_CLOUD_CONSUL_DISCOVERY_ENABLED: true
       GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
       GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+      FRONTEND_URL: http://localhost:1000
+      GATEWAY_URL: http://localhost:1000
     depends_on:
       consul:
         condition: service_healthy
@@ -209,12 +211,11 @@ services:
     build:
       context: ./front-end
       dockerfile: Dockerfile
-    container_name: frontend-app
+    container_name: frontend
     ports:
       - "3050:3050"
     environment:
       PORT: 3050
-      REACT_APP_API_URL: http://localhost:1000
     networks:
       - insurance-network
 
