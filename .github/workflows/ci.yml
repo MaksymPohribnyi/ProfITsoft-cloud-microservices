@@ -12,7 +12,6 @@ env:
 jobs:
   # GATEWAY
   gateway:
-    if: ${{ needs.changes.outputs.gateway == 'true' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -42,7 +41,6 @@ jobs:
 
   # BACKEND
   backend:
-    if: ${{ needs.changes.outputs.backend == 'true' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -72,7 +70,6 @@ jobs:
 
   # NOTIFICATION
   notification:
-    if: ${{ needs.changes.outputs.notification == 'true' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -102,7 +99,6 @@ jobs:
 
   # PAYMENTS
   payments:
-    if: ${{ needs.changes.outputs.payments == 'true' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -136,7 +132,6 @@ jobs:
 
   # FRONTEND
   frontend:
-    if: ${{ needs.changes.outputs.frontend == 'true' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
