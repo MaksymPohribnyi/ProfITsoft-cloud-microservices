@@ -7,6 +7,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_OWNER: ${{ github.repository_owner }}
+  DEPLOY_REPO: ${{ github.repository_owner }}/ProfITsoft-cloud-deployment
 
 jobs:
   changes:
@@ -186,3 +187,16 @@ jobs:
           build-args: |
             REACT_APP_API_URL=/
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_OWNER }}/insurance-frontend:latest
+
+  trigger-deploy:
+    needs: [ gateway, backend, notification, payments, frontend ]
+    runs-on: ubuntu-latest
+    if: success()
+    steps:
+      - name: Trigger deployment
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.PROFITSOFT_CLOUD_REPO_SECRET }}
+          repository: ${{ env.DEPLOY_REPO }}
+          event-type: trigger-deploy-event
+          client-payload: '{"ref": "${{ github.ref }}", "sha": "${{ github.sha }}"}'
