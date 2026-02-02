@@ -9,6 +9,8 @@ import {
   stopMongoContainer,
 } from './test/mongo.setup';
 
+jest.setTimeout(60000);
+
 describe('PaymentRepository', () => {
   let paymentRepository: PaymentRepository;
   let paymentModel: Model<PaymentDocument>;
@@ -32,6 +34,8 @@ describe('PaymentRepository', () => {
   });
 
   afterAll(async () => {
+    await paymentModel.db.close();
+
     await stopMongoContainer();
   });
 
