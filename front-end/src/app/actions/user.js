@@ -1,6 +1,7 @@
 import { apiClient } from "misc/requests";
 
 import {
+  ERROR_RECEIVE_USER,
   RECEIVE_USER,
   REQUEST_SIGN_IN,
   REQUEST_SIGN_OUT,
@@ -15,6 +16,10 @@ const receiveUser = (user) => ({
 
 const requestUser = () => ({
   type: REQUEST_USER,
+});
+
+const errorReceiveUser = () => ({
+  type: ERROR_RECEIVE_USER,
 });
 
 const requestSignIn = () => ({
@@ -43,7 +48,7 @@ const fetchSignOut = () => (dispatch) => {
     .finally(() => {
       dispatch(requestSignOut());
       // Redirect to login page
-      window.location.href = "/login";
+      window.location.href = "/";
     });
 };
 
@@ -64,8 +69,9 @@ const fetchUser = () => (dispatch) => {
       };
       return dispatch(receiveUser(transformedUser));
     })
-    .catch(() => {
-      // 401 — user not authenticated, nothing to do
+    .catch((error) => {
+      console.log("Failed to load user:", error);
+      dispatch(errorReceiveUser());
     });
 };
 

@@ -14,7 +14,6 @@ const addAxiosInterceptors = ({ onSignOut }) => {
     (response) => response.data,
     (error) => {
       if (error.response?.status === 401) {
-        window.location.href = '/oauth2/authorization/google';
         return Promise.reject([{ code: "UNAUTHORIZED" }]);
       }
 

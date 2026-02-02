@@ -213,9 +213,9 @@ services:
       dockerfile: Dockerfile
     container_name: frontend
     ports:
-      - "3050:3050"
+      - "3050:80"
     environment:
-      PORT: 3050
+      - REACT_APP_API_URL=/
     networks:
       - insurance-network
 

@@ -36,7 +36,19 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.OPTIONS).permitAll()
                         .pathMatchers("/oauth2/**", "/login/**", "/logout").permitAll()
                         .pathMatchers("/actuator/**").permitAll()
-                        .pathMatchers("/api/**", "/notifications/**", "/payments/**").authenticated()
+                        /*.pathMatchers("/api/**", "/notifications/**", "/payments/**").authenticated()
+                        .pathMatchers("/profile").authenticated()
+                        .anyExchange().permitAll()*/
+                        .pathMatchers(
+                                "/",
+                                "/index.html",
+                                "/assets/**",
+                                "/static/**",
+                                "/css/**",
+                                "/js/**",
+                                "/images/**",
+                                "/favicon.ico"
+                        ).permitAll()
                         .anyExchange().authenticated()
                 )
                 /*.exceptionHandling(exceptionHandling -> exceptionHandling

@@ -52,7 +52,7 @@ spring:
                 - TokenRelay=
 
             - id: frontend
-              uri: http://frontend:3050
+              uri: http://frontend
               predicates:
                 - Path=/**
 
