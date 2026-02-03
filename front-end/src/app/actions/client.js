@@ -1,3 +1,4 @@
+import apiClient from "misc/requests";
 import {
     ERROR_CLIENT,
     ERROR_CLIENTS,
@@ -17,9 +18,6 @@ import {
     SUCCESS_DELETE_CLIENT,
     SUCCESS_UPDATE_CLIENT,
 } from "../constants/actionTypes";
-import { MOCK_CLIENTS } from "../mocks/insurancePolicies";
-
-let mockStorage = [...MOCK_CLIENTS];
 
 // Action creators
 const requestClients = () => ({ type: REQUEST_CLIENTS });
