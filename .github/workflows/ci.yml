@@ -10,8 +10,34 @@ env:
   DEPLOY_REPO: ${{ github.repository_owner }}/ProfITsoft-cloud-deployment
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      gateway: ${{ steps.filter.outputs.gateway }}
+      backend: ${{ steps.filter.outputs.backend }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+      notification: ${{ steps.filter.outputs.notification }}
+      payments: ${{ steps.filter.outputs.payments }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            gateway:
+              - 'gateway/**'
+            backend:
+              - 'rest-insurance/**'
+            frontend:
+              - 'front-end/**'
+            notification:
+              - 'notification-service/**'
+            payments:
+              - 'nestjs-payments/**'
   # GATEWAY
   gateway:
+    needs: changes
+    if: ${{ needs.changes.outputs.gateway == 'true' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -48,6 +74,8 @@ jobs:
 
   # BACKEND
   backend:
+    needs: changes
+    if: ${{ needs.changes.outputs.backend == 'true' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -84,6 +112,8 @@ jobs:
 
   # NOTIFICATION
   notification:
+    needs: changes
+    if: ${{ needs.changes.outputs.notification == 'true' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -120,6 +150,8 @@ jobs:
 
   # PAYMENTS
   payments:
+    needs: changes
+    if: ${{ needs.changes.outputs.payments == 'true' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -156,6 +188,8 @@ jobs:
 
   # FRONTEND
   frontend:
+    needs: changes
+    if: ${{ needs.changes.outputs.frontend == 'true' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
