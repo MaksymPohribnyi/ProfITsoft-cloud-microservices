@@ -26,29 +26,34 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ClientController {
 
-	private final ClientService clientService;
+    private final ClientService clientService;
 
-	@GetMapping
-	public ResponseEntity<List<ClientResponseDTO>> getAllClients() {
-		return ResponseEntity.ok(clientService.getAllClients());
-	}
+    @GetMapping
+    public ResponseEntity<List<ClientResponseDTO>> getAllClients() {
+        return ResponseEntity.ok(clientService.getAllClients());
+    }
 
-	@PostMapping
-	public ResponseEntity<ClientResponseDTO> createClient(@Valid @RequestBody ClientRequestDTO request) {
-		ClientResponseDTO response = clientService.createClient(request);
-		return ResponseEntity.status(HttpStatus.CREATED).body(response);
-	}
+    @GetMapping("/{id}")
+    public ResponseEntity<ClientResponseDTO> getClientById(@PathVariable("id") UUID id) {
+        return ResponseEntity.ok(ClientResponseDTO.fromEntity(clientService.getClientEntity(id)));
+    }
 
-	@PutMapping("/{id}")
-	public ResponseEntity<ClientResponseDTO> updateClient(@PathVariable("id") UUID id,
-			@Valid @RequestBody ClientRequestDTO request) {
-		ClientResponseDTO response = clientService.updateClient(id, request);
-		return ResponseEntity.ok(response);
-	}
+    @PostMapping
+    public ResponseEntity<ClientResponseDTO> createClient(@Valid @RequestBody ClientRequestDTO request) {
+        ClientResponseDTO response = clientService.createClient(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteClient(@PathVariable("id") UUID id) {
-		clientService.deleteClient(id);
-		return ResponseEntity.noContent().build();
-	}
+    @PutMapping("/{id}")
+    public ResponseEntity<ClientResponseDTO> updateClient(@PathVariable("id") UUID id,
+                                                          @Valid @RequestBody ClientRequestDTO request) {
+        ClientResponseDTO response = clientService.updateClient(id, request);
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteClient(@PathVariable("id") UUID id) {
+        clientService.deleteClient(id);
+        return ResponseEntity.noContent().build();
+    }
 }

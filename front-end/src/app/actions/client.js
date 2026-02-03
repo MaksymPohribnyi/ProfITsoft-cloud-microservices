@@ -171,9 +171,9 @@ export const updateClient = (id, clientData) => (dispatch) => {
 export const deleteClient = (id) => (dispatch) => {
   dispatch(requestDelete());
   return deleteClientAPI(id)
-    .then((deletedId) => {
-      dispatch(successDelete(deletedId));
-      return deletedId;
+    .then(() => {
+      dispatch(successDelete(id));
+      return id;
     })
     .catch((error) => {
       dispatch(errorDelete(error));
