@@ -1,9 +1,10 @@
 server:
   port: 1000
+  forward-headers-strategy: framework
 
 app:
   cors:
-    allowed-origins: "http://localhost:1000,http://localhost:3050"
+    allowed-origins: "http://localhost:1000,http://localhost:3050,https://136.110.148.95.nip.io"
   frontend:
     url: ${FRONTEND_URL:http://localhost:1000}
   gateway:

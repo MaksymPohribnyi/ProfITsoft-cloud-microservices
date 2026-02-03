@@ -27,6 +27,8 @@ public class SecurityConfig {
     @Value("${app.frontend.url}")
     private String frontendUrl;
 
+    private static final String AUTHORIZATION_GOOGLE = "/oauth2/authorization/google";
+
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
         http
@@ -36,9 +38,6 @@ public class SecurityConfig {
                         .pathMatchers(HttpMethod.OPTIONS).permitAll()
                         .pathMatchers("/oauth2/**", "/login/**", "/logout").permitAll()
                         .pathMatchers("/actuator/**").permitAll()
-                        /*.pathMatchers("/api/**", "/notifications/**", "/payments/**").authenticated()
-                        .pathMatchers("/profile").authenticated()
-                        .anyExchange().permitAll()*/
                         .pathMatchers(
                                 "/",
                                 "/index.html",
@@ -51,18 +50,18 @@ public class SecurityConfig {
                         ).permitAll()
                         .anyExchange().authenticated()
                 )
-                /*.exceptionHandling(exceptionHandling -> exceptionHandling
+                .exceptionHandling(exceptionHandling -> exceptionHandling
                         .authenticationEntryPoint(
-                                new RedirectServerAuthenticationEntryPoint("/oauth2/authorization/google")
+                                new RedirectServerAuthenticationEntryPoint(AUTHORIZATION_GOOGLE)
                         )
-                )*/
+                )
                 .oauth2Login(oauth2 -> oauth2
-                                .authenticationSuccessHandler(
-                                        new RedirectServerAuthenticationSuccessHandler(frontendUrl)
-                                )
-                        /*.authenticationFailureHandler(
+                        .authenticationSuccessHandler(
+                                new RedirectServerAuthenticationSuccessHandler(frontendUrl)
+                        )
+                        .authenticationFailureHandler(
                                 new RedirectServerAuthenticationFailureHandler(frontendUrl + "/login?error=true")
-                        )*/
+                        )
                 );
 
         return http.build();
