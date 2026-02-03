@@ -77,26 +77,24 @@ The API will be available at: http://localhost:1000
 
 This project utilizes a Split-Repository architecture to separate source code from deployment configuration.
 * **Microservices Repository** (Current): Contains source code, Dockerfiles, and CI build logic.
-* **[Deployment Repository](thttps://github.com/MaksymPohribnyi/ProfITsoft-cloud-deployment)**: Contains K8S manifests (.yaml), infrastructure configuration, and the CD to apply changes to the GKE cluster
+* **[Deployment Repository](https://github.com/MaksymPohribnyi/ProfITsoft-cloud-deployment)**: Contains K8S manifests (.yaml), infrastructure configuration, and the CD to apply changes to the GKE cluster
 
 ## 🔐 Configuration & Secrets
 
 To enable the CI/CD pipelines to interact with Google Cloud and link the two repos, you should  configure specific GitHub secrets in repo settings:
 
-## 1️⃣ Secrets for THIS Repository
+### 1️⃣ Secrets for THIS Repository
 ### `ProfITsoft-cloud-microservices`
 
 This repository needs permission to **trigger deployments** in the external deployment repository.
 
 ### Required Secrets
 
-| Secret Name | Description             | How to Generate                                                                                                                                    |
-|------------|-------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
-| PROFITSOFT_CLOUD_REPO_SECRET | GitHub Personal Access Token (PAT) | 1. Go to **GitHub Settings → Developer Settings → Generate a new Personal access tokens with scope `repo` (Tokens classic)** |
+| Secret Name | Description             | How to Generate                                                                                                                        |
+|------------|-------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
+| PROFITSOFT_CLOUD_REPO_SECRET | GitHub Personal Access Token (PAT) | 1. Go to **GitHub Developer Settings → Generate a new Personal access tokens with scope `repo` (Tokens classic)** |
 
----
-
-## 2️⃣ Secrets for [DEPLOYMENT](thttps://github.com/MaksymPohribnyi/ProfITsoft-cloud-deployment) Repository
+### 2️⃣ Secrets for [DEPLOYMENT](https://github.com/MaksymPohribnyi/ProfITsoft-cloud-deployment) Repository
 ### `ProfITsoft-cloud-deployment`
 
 This repository performs the **actual deployment to Google Kubernetes Engine (GKE)**
@@ -122,7 +120,7 @@ Required roles for the Service Account in Google Cloud Console:
 - Kubernetes Engine Developer
 - Owner
 
-## CI/CD Pipeline
+## 🔄 CI/CD Pipeline
 
 ### 1. Build & Push `ci.yml`
 
