@@ -47,33 +47,25 @@ const errorDelete = (error) => ({ type: ERROR_DELETE_CLIENT, payload: error });
 export const setFilters = (filters) => ({ type: SET_CLIENTS_FILTERS, payload: filters });
 export const setPagination = (pagination) => ({ type: SET_CLIENTS_PAGINATION, payload: pagination });
 
-const getClients = (filters, page, pageSize) => {
-    const { USERS_SERVICE } = config;
-    return axios.get(`${USERS_SERVICE}/clients`, {
-        params: { ...filters, page, pageSize }
-    });
+const getClientsAPI = () => {
+    return apiClient.get('/api/client');
 };
 
-const getClient = (id) => {
-    const { USERS_SERVICE } = config;
-    return axios.get(`${USERS_SERVICE}/clients/${id}`);
+const getClientAPI = (id) => {
+    return apiClient.get(`/api/client/${id}`);
 };
 
 const createClientAPI = (clientData) => {
-    const { USERS_SERVICE } = config;
-    return axios.post(`${USERS_SERVICE}/clients`, clientData);
+    return apiClient.post('/api/client', clientData);
 };
 
 const updateClientAPI = (id, clientData) => {
-    const { USERS_SERVICE } = config;
-    return axios.put(`${USERS_SERVICE}/clients/${id}`, clientData);
+    return apiClient.put(`/api/client/${id}`, clientData);
 };
 
 const deleteClientAPI = (id) => {
-    const { USERS_SERVICE } = config;
-    return axios.delete(`${USERS_SERVICE}/clients/${id}`);
+    return apiClient.delete(`/api/client/${id}`);
 };
-
 
 const applyFiltersAndPagination = (clients, filters, page, pageSize) => {
     let filtered = [...clients];
@@ -111,12 +103,9 @@ const applyFiltersAndPagination = (clients, filters, page, pageSize) => {
 
 export const fetchClients = (filters = {}, page = 1, pageSize = 10) => (dispatch) => {
     dispatch(requestClients());
-    return getClients(filters, page, pageSize)
-        .catch(() => {
-            const result = applyFiltersAndPagination(mockStorage, filters, page, pageSize);
-            return result;
-        })
-        .then((result) => {
+    return getClientsAPI()
+        .then((allClients) => {
+            const result = applyFiltersAndPagination(allClients, filters, page, pageSize);
             dispatch(receiveClients(result));
             return result;
         })
@@ -128,14 +117,7 @@ export const fetchClients = (filters = {}, page = 1, pageSize = 10) => (dispatch
 
 export const fetchClient = (id) => (dispatch) => {
     dispatch(requestClient());
-    return getClient(id)
-        .catch(() => {
-            const client = mockStorage.find(c => c.id === id);
-            if (client) {
-                return client;
-            }
-            return Promise.reject({ message: `Client not found by id = ${id}` });
-        })
+    return getClientAPI(id)
         .then((client) => {
             dispatch(receiveClient(client));
             return client;
@@ -148,61 +130,39 @@ export const fetchClient = (id) => (dispatch) => {
 export const createClient = (clientData) => (dispatch) => {
     dispatch(requestCreate());
     return createClientAPI(clientData)
-        .catch(() => {
-            const newClient = {
-                ...clientData,
-                id: `${Date.now()}-${Math.random()}`,
-                insurancePolicies: []
-            };
-            mockStorage.push(newClient);
-            return newClient;
-        })
         .then((newClient) => {
             dispatch(successCreate(newClient));
             return newClient;
         })
         .catch((error) => {
             dispatch(errorCreate(error));
+            throw error;
         });
 };
 
 export const updateClient = (id, clientData) => (dispatch) => {
     dispatch(requestUpdate());
     return updateClientAPI(id, clientData)
-        .catch(() => {
-            const index = mockStorage.findIndex(c => c.id === id);
-            if (index !== -1) {
-                mockStorage[index] = { ...mockStorage[index], ...clientData };
-                return mockStorage[index];
-            }
-            return Promise.reject({ message: `Client not found by id = ${id}` });
-        })
         .then((updatedClient) => {
             dispatch(successUpdate(updatedClient));
             return updatedClient;
         })
         .catch((error) => {
             dispatch(errorUpdate(error));
+            throw error;
         });
 };
 
 export const deleteClient = (id) => (dispatch) => {
     dispatch(requestDelete());
     return deleteClientAPI(id)
-        .catch(() => {
-            const index = mockStorage.findIndex(c => c.id === id);
-            if (index !== -1) {
-                mockStorage.splice(index, 1);
-                return id;
-            }
-            return Promise.reject({ message: `Client not found by id = ${id}` });
-        })
         .then((deletedId) => {
             dispatch(successDelete(deletedId));
             return deletedId;
         })
         .catch((error) => {
             dispatch(errorDelete(error));
+            throw error;
         });
 };
 
