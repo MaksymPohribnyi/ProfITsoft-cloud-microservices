@@ -46,7 +46,8 @@ public class SecurityConfig {
                                 "/css/**",
                                 "/js/**",
                                 "/images/**",
-                                "/favicon.ico"
+                                "/favicon.ico",
+                                "/manifest.json"
                         ).permitAll()
                         .anyExchange().authenticated()
                 )
