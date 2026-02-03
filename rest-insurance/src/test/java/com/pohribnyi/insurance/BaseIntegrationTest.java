@@ -1,18 +1,23 @@
 package com.pohribnyi.insurance;
 
-import java.util.TimeZone;
-
+import com.pohribnyi.insurance.messaging.EmailNotificationProducer;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.testcontainers.containers.PostgreSQLContainer;
+
+import java.util.TimeZone;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 public abstract class BaseIntegrationTest {
+
+    @MockitoBean
+    protected EmailNotificationProducer emailNotificationProducer;
 
 	static final PostgreSQLContainer<?> POSTGRE_SQL_CONTAINER = new PostgreSQLContainer<>("postgres:15")
             .withDatabaseName("testdb")

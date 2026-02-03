@@ -4,9 +4,33 @@ spring:
   
   jpa:
     hibernate:
-      ddl-auto: none  
+      ddl-auto: none
     show-sql: false
   
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.yaml
-    enabled: true  
+    enabled: true
+
+  cloud:
+    consul:
+      enabled: false
+      discovery:
+        enabled: false
+        catalog:
+          watch:
+            enabled: false
+      config:
+        enabled: false
+    discovery:
+      enabled: false
+
+management:
+  endpoints:
+    enabled-by-default: false
+  health:
+    defaults:
+      enabled: false
+    consul:
+      enabled: false
+    kafka:
+      enabled: false

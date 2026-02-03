@@ -14,7 +14,9 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.kafka.ConfluentKafkaContainer;
 import org.testcontainers.utility.DockerImageName;
 
-@SpringBootTest
+@SpringBootTest(properties = {
+        "management.health.mail.enabled=false"
+})
 @Testcontainers
 public abstract class BaseIntegrationTest {
 
