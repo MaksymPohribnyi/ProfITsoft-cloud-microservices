@@ -218,7 +218,11 @@ jobs:
   trigger-deploy:
     needs: [ gateway, backend, notification, payments, frontend ]
     runs-on: ubuntu-latest
-    if: always() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')
+    if: |
+      always() && 
+      !contains(needs.*.result, 'failure') && 
+      !contains(needs.*.result, 'cancelled') && 
+      contains(needs.*.result, 'success')
     steps:
       - name: Trigger deployment
         uses: peter-evans/repository-dispatch@v3
