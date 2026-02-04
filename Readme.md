@@ -12,8 +12,8 @@ This project aggregates several microservices to form a complete system:
 
 > **Note:** The Insurance Policy services implementation resides in a separate repositories and **cloned into this repository as a folders** for convenient local development and deploy.
 >
-> 👇 The repositories linked below contain the **source code**, detailed service descriptions and responsibilities, REST endpoints and contracts:
-> 
+> 👇 The repositories linked below contains the **source code**, detailed service descriptions and responsibilities, REST endpoints and contracts:
+>
 > **[Insurance Policy Service (Original repository)](https://github.com/MaksymPohribnyi/ProfITsoft-spring-rest)**
 >
 > **[Payments & Transaction Service (Original repository)](https://github.com/MaksymPohribnyi/ProfITsoft-nestjs-insurance-app)**
@@ -56,8 +56,8 @@ You can run the entire system locally using Docker Compose.
 
 ### 1.  Clone the repository
 ```bash
-git clone https://github.com/MaksymPohribnyi/ProfITsoft-async-notifications.git
-cd profITsoft-async-notifications
+git clone https://github.com/MaksymPohribnyi/ProfITsoft-cloud-microservices.git
+cd profITsoft-gatewai-cloud-insurance
 ```
 
 ### 2. Configure Environment
